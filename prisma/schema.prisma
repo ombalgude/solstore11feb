@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  walletAddress String?   @unique
+  name          String?
+  avatar        String?
+  username      String?   @unique
+  bio           String?   @db.Text
+  password      String?   // For email login
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  products      Product[]
+  purchases     Purchase[]
+}
+
+model Product {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  price       Float
+  contentUrl  String
+  previewUrl  String
+  category    String
+  contentType String    // "single", "collection", "video", "custom"
+  isLocked    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  creator     User      @relation(fields: [creatorId], references: [id])
+  creatorId   String
+  purchases   Purchase[]
+}
+
+model Purchase {
+  id        String   @id @default(cuid())
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  buyer     User     @relation(fields: [buyerId], references: [id])
+  buyerId   String
+  price     Float
+  txHash    String
+  createdAt DateTime @default(now())
+}
