@@ -28,14 +28,14 @@ export default function Home() {
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </Button>
-          <Button 
+          {/* <Button 
             variant="outline" 
             size="lg" 
             asChild
             className="w-full sm:w-auto"
           >
             <Link href="/marketplace">Browse Marketplace</Link>
-          </Button>
+          </Button> */}
         </div>
       </div>
 

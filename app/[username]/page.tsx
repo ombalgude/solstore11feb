@@ -16,11 +16,12 @@ interface SocialLink {
   icon: React.ComponentType<any>
 }
 
-export default function CreatorPage({ params }: CreatorPageProps) {
-  // Demo data
+export default async function CreatorPage({ params }: CreatorPageProps) {
+  const { username } = await params
+
   const store = {
     name: "Demo Creator",
-    username: params.username,
+    username: username,
     bio: "Digital creator passionate about design and technology",
     avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=60",
     coverImage: "https://images.unsplash.com/photo-1579547944212-c4f4961a8dd8?w=1200&auto=format&fit=crop&q=60",
@@ -108,4 +109,18 @@ export default function CreatorPage({ params }: CreatorPageProps) {
       </div>
     </div>
   )
+}
+
+export async function generateStaticParams() {
+  // Fetch usernames from your data source
+  const usernames = await fetchUsernames()
+
+  return usernames.map((username: string) => ({
+    username,
+  }))
+}
+
+async function fetchUsernames() {
+  // Replace this with your actual data fetching logic
+  return ["user1", "user2", "user3"]
 }
